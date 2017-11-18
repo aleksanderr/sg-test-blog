@@ -6,6 +6,8 @@ Description: Test plugin.
 Version: 1.0
 Author: romansolomashenko
 Author URI: https://www.linkedin.com/in/solomashenkoroman/
+Text Domain: test-plugin
+Domain Path: /languages/
 License: A "Slug" license name e.g. GPL2
     Copyright 2017  Solomashenko Roman  (email: solomashenko.roman.1991@gmail.com)
     This program is free software; you can redistribute it and/or modify

@@ -2,7 +2,7 @@
 
 namespace includes\common;
 
-class StepByStepAutoload
+class TestPluginAutoload
 {
 	private static $instance = null;
 	private function __construct() {
@@ -27,4 +27,4 @@ class StepByStepAutoload
     }
 }
 
-StepByStepAutoload::getInstance();
+TestPluginAutoload::getInstance();
