@@ -8,10 +8,10 @@
 
 namespace includes\common;
 
-use includes\example\TestPluginExampleAction;
-use includes\example\TestPluginExampleFilter;
+use includes\example\StepByStepExampleAction;
+use includes\example\StepByStepExampleFilter;
 
-class TestPluginLoader
+class StepByStepLoader
 {
     private static $instance = null;
 
@@ -56,13 +56,13 @@ class TestPluginLoader
      * Метод будет срабатывать везде. Загрузка классов для Админ панеле и Сайта
      */
     public function all(){
-        TestPluginLocalization::getInstance();
-        $TestPluginExampleAction = TestPluginExampleAction::newInstance();
-        $TestPluginExampleFilter = TestPluginExampleFilter::newInstance();
-       $TestPluginExampleFilter->callMyFilter("Roman");
-       $TestPluginExampleFilter->callMyFilterAdditionalParameter("Roman", "Softgroup", "Poltava");
-       $TestPluginExampleAction = TestPluginExampleAction::newInstance();
-       $TestPluginExampleAction->callMyAction();
-       $TestPluginExampleAction->callMyActionAdditionalParameter( 'test1', 'test2', 'test3' );
+        StepByStepLocalization::getInstance();
+        //$stepByStepExampleAction = StepByStepExampleAction::newInstance();
+        /*$stepByStepExampleFilter = StepByStepExampleFilter::newInstance();
+       $stepByStepExampleFilter->callMyFilter("Roman");
+       $stepByStepExampleFilter->callMyFilterAdditionalParameter("Roman", "Softgroup", "Poltava");
+       $stepByStepExampleAction = StepByStepExampleAction::newInstance();
+       $stepByStepExampleAction->callMyAction();
+       $stepByStepExampleAction->callMyActionAdditionalParameter( 'test1', 'test2', 'test3' );*/
     }
 }

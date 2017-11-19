@@ -9,7 +9,7 @@
 namespace includes\example;
 
 
-class TestPluginExampleAction
+class StepByStepExampleAction
 {
     public function __construct() {
         //Прикрепим функцию к событию 'my_action'

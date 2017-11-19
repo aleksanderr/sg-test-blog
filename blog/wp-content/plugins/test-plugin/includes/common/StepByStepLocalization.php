@@ -9,7 +9,7 @@
 namespace includes\common;
 
 
-class TestPluginLocalization
+class StepByStepLocalization
 {
     private static $instance = null;
     private function __construct() {

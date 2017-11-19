@@ -9,7 +9,7 @@
 
 namespace includes\example;
 
-class TestPluginExampleFilter
+class StepByStepExampleFilter
 {
     public function __construct() {
         //Прикрепляем функцию к фильтру
