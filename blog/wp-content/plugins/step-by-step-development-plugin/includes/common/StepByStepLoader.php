@@ -8,6 +8,18 @@
 
 namespace includes\common;
 
+use includes\controllers\admin\menu\StepByStepMainAdminMenuController;
+use includes\controllers\admin\menu\StepByStepMainAdminSubMenuController;
+use includes\controllers\admin\menu\StepByStepMyCommentsMenuController;
+use includes\controllers\admin\menu\StepByStepMyDashboardMenuController;
+use includes\controllers\admin\menu\StepByStepMyMediaMenuController;
+use includes\controllers\admin\menu\StepByStepMyOptionsMenuController;
+use includes\controllers\admin\menu\StepByStepMyPagesMenuController;
+use includes\controllers\admin\menu\StepByStepMyPluginsMenuController;
+use includes\controllers\admin\menu\StepByStepMyPostsMenuController;
+use includes\controllers\admin\menu\StepByStepMyThemeMenuController;
+use includes\controllers\admin\menu\StepByStepMyToolsMenuController;
+use includes\controllers\admin\menu\StepByStepMyUsersMenuController;
 use includes\example\StepByStepExampleAction;
 use includes\example\StepByStepExampleFilter;
 
@@ -42,6 +54,18 @@ class StepByStepLoader
      * Метод будет срабатывать когда вы находитесь в Админ панеле. Загрузка классов для Админ панели
      */
     public function admin(){
+        StepByStepMainAdminMenuController::newInstance();
+        StepByStepMainAdminSubMenuController::newInstance();
+        StepByStepMyDashboardMenuController::newInstance();
+        StepByStepMyPostsMenuController::newInstance();
+        StepByStepMyMediaMenuController::newInstance();
+        StepByStepMyPagesMenuController::newInstance();
+        StepByStepMyCommentsMenuController::newInstance();
+        StepByStepMyThemeMenuController::newInstance();
+        StepByStepMyPluginsMenuController::newInstance();
+        StepByStepMyUsersMenuController::newInstance();
+        StepByStepMyToolsMenuController::newInstance();
+        StepByStepMyOptionsMenuController::newInstance();
 
     }
 
@@ -57,6 +81,7 @@ class StepByStepLoader
      */
     public function all(){
         StepByStepLocalization::getInstance();
+        StepByStepLoaderScript::getInstance();
         //$stepByStepExampleAction = StepByStepExampleAction::newInstance();
         /*$stepByStepExampleFilter = StepByStepExampleFilter::newInstance();
        $stepByStepExampleFilter->callMyFilter("Roman");
