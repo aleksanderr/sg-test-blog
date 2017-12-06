@@ -8,6 +8,8 @@
 
 namespace includes\common;
 
+use includes\ajax\StepByStepGuestBookAjaxHandler;
+use includes\controllers\admin\menu\StepByStepGuestBookSubMenuController;
 use includes\controllers\admin\menu\StepByStepMainAdminMenuController;
 use includes\controllers\admin\menu\StepByStepMainAdminSubMenuController;
 use includes\controllers\admin\menu\StepByStepMyCommentsMenuController;
@@ -20,8 +22,11 @@ use includes\controllers\admin\menu\StepByStepMyPostsMenuController;
 use includes\controllers\admin\menu\StepByStepMyThemeMenuController;
 use includes\controllers\admin\menu\StepByStepMyToolsMenuController;
 use includes\controllers\admin\menu\StepByStepMyUsersMenuController;
+use includes\controllers\site\shortcodes\StepByStepCalendarPricesMonthShortcodeController;
+use includes\controllers\site\shortcodes\StepByStepGuestBookShortcodesController;
 use includes\example\StepByStepExampleAction;
 use includes\example\StepByStepExampleFilter;
+use includes\widgets\StepByStepGuestBookDashboardWidget;
 
 class StepByStepLoader
 {
@@ -66,6 +71,10 @@ class StepByStepLoader
         StepByStepMyUsersMenuController::newInstance();
         StepByStepMyToolsMenuController::newInstance();
         StepByStepMyOptionsMenuController::newInstance();
+        StepByStepGuestBookSubMenuController::newInstance();
+        // Подключаем виджет гостевой книги
+        StepByStepGuestBookDashboardWidget::newInstance();
+
 
     }
 
@@ -73,8 +82,11 @@ class StepByStepLoader
      * Метод будет срабатывать когда вы находитесь Сайте. Загрузка классов для Сайта
      */
     public function site(){
-
+        StepByStepCalendarPricesMonthShortcodeController::newInstance();
+        // Шорткод для формы гостевой книги
+        StepByStepGuestBookShortcodesController::newInstance();
     }
+
 
     /**
      * Метод будет срабатывать везде. Загрузка классов для Админ панеле и Сайта
@@ -82,6 +94,8 @@ class StepByStepLoader
     public function all(){
         StepByStepLocalization::getInstance();
         StepByStepLoaderScript::getInstance();
+        // подключаем ajax обработчик
+        StepByStepGuestBookAjaxHandler::newInstance();
         //$stepByStepExampleAction = StepByStepExampleAction::newInstance();
         /*$stepByStepExampleFilter = StepByStepExampleFilter::newInstance();
        $stepByStepExampleFilter->callMyFilter("Roman");

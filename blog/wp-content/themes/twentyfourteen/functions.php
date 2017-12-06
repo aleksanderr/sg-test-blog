@@ -390,24 +390,24 @@ function twentyfourteen_list_authors() {
 		if ( ! $post_count ) {
 			continue;
 		}
-	?>
+		?>
 
-	<div class="contributor">
-		<div class="contributor-info">
-			<div class="contributor-avatar"><?php echo get_avatar( $contributor_id, 132 ); ?></div>
-			<div class="contributor-summary">
-				<h2 class="contributor-name"><?php echo get_the_author_meta( 'display_name', $contributor_id ); ?></h2>
-				<p class="contributor-bio">
-					<?php echo get_the_author_meta( 'description', $contributor_id ); ?>
-				</p>
-				<a class="button contributor-posts-link" href="<?php echo esc_url( get_author_posts_url( $contributor_id ) ); ?>">
-					<?php printf( _n( '%d Article', '%d Articles', $post_count, 'twentyfourteen' ), $post_count ); ?>
-				</a>
-			</div><!-- .contributor-summary -->
-		</div><!-- .contributor-info -->
-	</div><!-- .contributor -->
+		<div class="contributor">
+			<div class="contributor-info">
+				<div class="contributor-avatar"><?php echo get_avatar( $contributor_id, 132 ); ?></div>
+				<div class="contributor-summary">
+					<h2 class="contributor-name"><?php echo get_the_author_meta( 'display_name', $contributor_id ); ?></h2>
+					<p class="contributor-bio">
+						<?php echo get_the_author_meta( 'description', $contributor_id ); ?>
+					</p>
+					<a class="button contributor-posts-link" href="<?php echo esc_url( get_author_posts_url( $contributor_id ) ); ?>">
+						<?php printf( _n( '%d Article', '%d Articles', $post_count, 'twentyfourteen' ), $post_count ); ?>
+					</a>
+				</div><!-- .contributor-summary -->
+			</div><!-- .contributor-info -->
+		</div><!-- .contributor -->
 
-	<?php
+		<?php
 	endforeach;
 }
 endif;
@@ -449,23 +449,23 @@ function twentyfourteen_body_classes( $classes ) {
 		|| is_page_template( 'page-templates/contributors.php' )
 		|| is_attachment() ) {
 		$classes[] = 'full-width';
-	}
+}
 
-	if ( is_active_sidebar( 'sidebar-3' ) ) {
-		$classes[] = 'footer-widgets';
-	}
+if ( is_active_sidebar( 'sidebar-3' ) ) {
+	$classes[] = 'footer-widgets';
+}
 
-	if ( is_singular() && ! is_front_page() ) {
-		$classes[] = 'singular';
-	}
+if ( is_singular() && ! is_front_page() ) {
+	$classes[] = 'singular';
+}
 
-	if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) ) {
-		$classes[] = 'slider';
-	} elseif ( is_front_page() ) {
-		$classes[] = 'grid';
-	}
+if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) ) {
+	$classes[] = 'slider';
+} elseif ( is_front_page() ) {
+	$classes[] = 'grid';
+}
 
-	return $classes;
+return $classes;
 }
 add_filter( 'body_class', 'twentyfourteen_body_classes' );
 
@@ -553,9 +553,72 @@ if ( ! class_exists( 'Featured_Content' ) && 'plugins.php' !== $GLOBALS['pagenow
  * `is_customize_preview` function was introduced.
  */
 if ( ! function_exists( 'is_customize_preview' ) ) :
-function is_customize_preview() {
-	global $wp_customize;
+	function is_customize_preview() {
+		global $wp_customize;
 
-	return ( $wp_customize instanceof WP_Customize_Manager ) && $wp_customize->is_preview();
-}
+		return ( $wp_customize instanceof WP_Customize_Manager ) && $wp_customize->is_preview();
+	}
 endif;
+
+/**
+* My widget
+*/
+function hstngr_register_widget() {
+	register_widget( 'hstngr_widget' );
+}
+
+add_action( 'widgets_init', 'hstngr_register_widget' );
+
+class hstngr_widget extends WP_Widget {
+
+	function __construct() {
+		parent::__construct(
+// widget ID
+			'currency_widget',
+// widget name
+			'Currency widget',
+// widget description
+			array( 'description' =>  'This is the best widget in the world', )
+		);
+	}
+	public function widget( $args, $instance ) {
+		$title = apply_filters( 'widget_title', $instance['title'] );
+		echo $args['before_widget'];
+//if title is present
+		if ( ! empty( $title ) )
+			echo $args['before_title'] . $title . $args['after_title'];
+//output
+		$data = json_decode(file_get_contents('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5'), true);
+		// echo "<pre>";
+		// var_dump($data);
+		// echo "</pre>";
+		echo '<div class="cur-widget">';
+		foreach ($data as $currency) {
+			echo '<div class="cur-widget__item">
+			<span class="cur-widget__currency"><b>' . $currency['ccy'] . ':&nbsp;</b></span>
+			<span class="cur-widget__course">' . round($currency['buy'], 2) . '/' . round($currency['sale'], 2) . '</span>
+			</div>';
+		}
+		
+		echo "</div>";
+		echo $args['after_widget'];
+	}
+	public function form( $instance ) {
+		if ( isset( $instance[ 'title' ] ) )
+			$title = $instance[ 'title' ];
+		else
+			$title = 'Currency';
+		?>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+		</p>
+		<?php
+	}
+	public function update( $new_instance, $old_instance ) {
+		$instance = array();
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+		return $instance;
+	}
+
+}
