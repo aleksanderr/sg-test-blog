@@ -66,12 +66,15 @@ function run_currency_graph() {
 run_currency_graph();
 
 
-function plugintest() {
+function currency_graph() {
+	// require_once plugin_dir_path( __FILE__ ) . 'public/partials/currency-graph-public-display.php';
+	// $data = json_decode(file_get_contents('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20171217&json'), true);
+	// echo "<pre>";
+	// var_dump($data);
+	// echo "</pre>";
 
-	$data = json_decode(file_get_contents('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5'), true);
-	echo "<pre>";
-	var_dump($data);
-	echo "</pre>";
-
-	$obj = new Currency_Graph_Public('', '', '');
+	// $obj = new Currency_Graph_Public('', '', '');
+	Currency_Graph_Public_Display::getData();
 }
+
+add_shortcode('currency_graph', 'currency_graph');

@@ -75,7 +75,7 @@ class Currency_Graph {
 			$this->version = '1.0.0';
 		}
 		$this->plugin_name = 'currency-graph';
-		$this->data = json_decode(file_get_contents('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5'), true);
+		$this->data = json_decode(file_get_contents('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20171217&json'), true);
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -182,6 +182,9 @@ class Currency_Graph {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_ajax_cg_get_by_date', $plugin_public, 'get_data_by_date' );
+		$this->loader->add_action( 'wp_ajax_nopriv_cg_get_by_date', $plugin_public, 'get_data_by_date' );
+		$this->loader->add_action( 'wp_head', $plugin_public, 'js_variables' );
 
 	}
 

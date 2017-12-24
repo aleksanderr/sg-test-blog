@@ -54,6 +54,7 @@ class Currency_Graph_Public {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 		$this->data = $data;
+		$this->display_graphs($data);		
 	}
 
 	/**
@@ -98,9 +99,38 @@ class Currency_Graph_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/Chart.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'chart-js', plugin_dir_url( __FILE__ ) . 'js/Chart.min.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/currency-graph-public.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	public function get_data_by_date() {
+		$dates = json_decode(stripslashes($_GET['dates']));
+		$currency = $_GET['currency'];
+
+		$i = 0;
+		foreach ($dates as $date) {
+			do {
+				$data = file_get_contents('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=' . $currency . '&date=' . $date . '&json');
+			} while ( ! $data );
+
+			// echo $data;
+			$json[$i] = json_decode($data, true);
+			$i++;
+		};
+
+		$result = json_encode($json);
+		print_r($result);
+		die ();
+	}
+
+	public function js_variables(){
+		echo '<script type="text/javascript">window.cg_ajax_url = "' . admin_url('admin-ajax.php') . '";</script>';
+	}
+
+	public function display_graphs($data) {
+		require_once ( 'partials/currency-graph-public-display.php' );
+		$graphs = new Currency_Graph_Public_Display($data);
 	}
 
 }

@@ -152,7 +152,7 @@ class Currency_Graph_Admin {
 
 	public function display_plugin_settings_page() {
 	    include_once( 'partials/class-currency-graph-settings-page.php' );
-	    if( is_admin() ) $my_settings_page = new Currency_Graph_Settings_Page($this->data);
+	    $my_settings_page = new Currency_Graph_Settings_Page($this->data);
 	}
 
 }

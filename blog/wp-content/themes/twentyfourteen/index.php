@@ -25,8 +25,9 @@ get_header(); ?>
 	}
 ?>
 
-	<div id="primary" class="content-area">
+	<div id="primary" class="content-area">		
 		<div id="content" class="site-content" role="main">
+			<div style="color: #000; font-size: 16px;"><?php currency_graph(); ?></div>
 
 		<?php
 			if ( have_posts() ) :
